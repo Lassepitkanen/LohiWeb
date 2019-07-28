@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace LohiWeb.Data.Repositories
 {
@@ -14,9 +17,15 @@ namespace LohiWeb.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public IEnumerable<WaterLevel> GetAll()
+        public async Task<IEnumerable<WaterLevel>> GetAll()
         {
-            return _dbContext.WaterLevel;
+            return await _dbContext.WaterLevel.ToListAsync();
+        }
+
+        public async Task<ILookup<int, WaterLevel>> GetByWaterLevelLocationId(IEnumerable<int> ids)
+        {
+            var waterLevels = await _dbContext.WaterLevel.Where(wl => ids.Contains(wl.WaterLevelLocationId)).ToListAsync();
+            return waterLevels.ToLookup(wl => wl.WaterLevelLocationId);
         }
     }
 }

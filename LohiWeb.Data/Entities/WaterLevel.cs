@@ -13,5 +13,6 @@ namespace LohiWeb.Data.Entities
         public long UnixTime { get; set; }
         [Required]
         public double Value { get; set; }
+        public int WaterLevelLocationId { get; set; }
     }
 }
