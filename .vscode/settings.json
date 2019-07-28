@@ -1,0 +1,6 @@
+{
+  "files.exclude": {
+    "LohiWeb/src/**/*.js": true,
+    "LohiWeb/src/**/*.map": true
+  }
+}
