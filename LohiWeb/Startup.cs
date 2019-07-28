@@ -10,10 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using LohiWeb.Data;
 using GraphQL;
-using LohiWeb.Data.GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using LohiWeb.Data.Repositories;
+using LohiWeb.GraphQL;
 
 namespace LohiWeb
 {
@@ -27,18 +27,20 @@ namespace LohiWeb
                 options.UseSqlite("Data Source=../LohiWeb.Data/lohi.db");
             });
             services.AddScoped<WaterLevelRepository>();
+            services.AddScoped<WaterLevelLocationRepository>();
 
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-            services.AddScoped<WaterLevelSchema>();
+            services.AddScoped<LohiSchema>();
 
 
             services.AddGraphQL(o => { o.ExposeExceptions = true; })
-                .AddGraphTypes(ServiceLifetime.Scoped);
+                .AddGraphTypes(ServiceLifetime.Scoped)
+                .AddDataLoader();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseGraphQL<WaterLevelSchema>();
+            app.UseGraphQL<LohiSchema>();
 
             if (env.IsDevelopment())
             {

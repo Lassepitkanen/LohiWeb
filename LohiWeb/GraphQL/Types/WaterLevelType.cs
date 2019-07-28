@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LohiWeb.Data.GraphQL.Types
+namespace LohiWeb.GraphQL.Types
 {
     public class WaterLevelType : ObjectGraphType<WaterLevel>
     {
