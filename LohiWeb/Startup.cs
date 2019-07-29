@@ -22,7 +22,8 @@ namespace LohiWeb
         public void ConfigureServices(IServiceCollection services)
 {
             services.AddMvc();
-            services.AddDbContextPool<LohiDbContext>(options =>
+            services.AddScoped<ILohiDbContext>(provider => provider.GetService<LohiDbContext>());
+            services.AddDbContextPool<LohiDbContext> (options =>
             {
                 options.UseSqlite("Data Source=../LohiWeb.Data/lohi.db");
             });
@@ -34,7 +35,6 @@ namespace LohiWeb
 
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<LohiSchema>();
-
 
             services.AddGraphQL(o => { o.ExposeExceptions = true; })
                 .AddGraphTypes(ServiceLifetime.Scoped)

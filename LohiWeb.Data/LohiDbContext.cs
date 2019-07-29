@@ -8,7 +8,17 @@ using System.Threading.Tasks;
 
 namespace LohiWeb.Data
 {
-    public class LohiDbContext : DbContext
+    public interface ILohiDbContext
+    {
+        DbSet<WaterLevelLocation> WaterLevelLocation { get; set; }
+        DbSet<WaterMeasurementLocation> WaterMeasurementLocation { get; set; }
+
+        DbSet<WaterLevel> WaterLevel { get; set; }
+        DbSet<WaterMeasurement> WaterMeasurement { get; set; }
+        DbSet<WaterMeasurementRaw> WaterMeasurementRaw { get; set; }
+    }
+
+    public class LohiDbContext : DbContext, ILohiDbContext
     {
         public LohiDbContext(DbContextOptions<LohiDbContext> options) : base(options)
         {

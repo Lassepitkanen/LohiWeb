@@ -10,9 +10,9 @@ namespace LohiWeb.Data.Repositories
 {
     public class WaterLevelLocationRepository
     {
-        private readonly LohiDbContext _dbContext;
+        private readonly ILohiDbContext _dbContext;
 
-        public WaterLevelLocationRepository(LohiDbContext dbContext)
+        public WaterLevelLocationRepository(ILohiDbContext dbContext)
         {
             _dbContext = dbContext;
         }
