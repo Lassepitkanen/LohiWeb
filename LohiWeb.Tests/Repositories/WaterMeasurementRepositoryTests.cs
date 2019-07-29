@@ -1,20 +1,18 @@
-﻿using System;
+﻿using FluentAssertions;
+using LohiWeb.Data.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
-using FluentAssertions;
-using LohiWeb.Data.Repositories;
 using System.Threading.Tasks;
-using LohiWeb.Data;
-using System.Linq;
+using Xunit;
 
 namespace LohiWeb.Tests.Repositories
 {
-    public class WaterLevelLocationRespositoryTests
+    public class WaterMeasurementRepositoryTests
     {
         private DbContextFactory _dbContextFactory;
 
-        public WaterLevelLocationRespositoryTests()
+        public WaterMeasurementRepositoryTests()
         {
             _dbContextFactory = new DbContextFactory();
         }
@@ -24,9 +22,9 @@ namespace LohiWeb.Tests.Repositories
         {
             //Arrange
             var _dbContext = _dbContextFactory.BuildDbContext();
-            var sut = new WaterLevelLocationRepository(_dbContext);
+            var sut = new WaterMeasurementRepository(_dbContext);
 
-            var expected = _dbContext.WaterLevelLocation;
+            var expected = _dbContext.WaterMeasurement;
 
             //Act
             var actual = await sut.GetAll();
