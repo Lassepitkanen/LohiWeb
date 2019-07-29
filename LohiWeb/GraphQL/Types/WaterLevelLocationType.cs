@@ -23,7 +23,6 @@ namespace LohiWeb.GraphQL.Types
                         "GetByWaterLevelLocationId", waterLevelRepository.GetByWaterLevelLocationId);
                     return loader.LoadAsync(context.Source.Id);
                 });
-                //waterLevelRepository.GetByWaterLevelLocationId(context.Source.Id));
         }
     }
 }

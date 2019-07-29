@@ -28,6 +28,9 @@ namespace LohiWeb
             });
             services.AddScoped<WaterLevelRepository>();
             services.AddScoped<WaterLevelLocationRepository>();
+            services.AddScoped<WaterMeasurementLocationRepository>();
+            services.AddScoped<WaterMeasurementRepository>();
+            services.AddScoped<WaterMeasurementRawRepository>();
 
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<LohiSchema>();

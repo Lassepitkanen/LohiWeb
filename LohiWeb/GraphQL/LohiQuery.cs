@@ -10,7 +10,13 @@ namespace LohiWeb.GraphQL
 {
     public class LohiQuery : ObjectGraphType
     {
-        public LohiQuery(WaterLevelLocationRepository waterLevelLocationRepository, WaterLevelRepository waterLevelRepository)
+        public LohiQuery(
+            WaterLevelLocationRepository waterLevelLocationRepository, 
+            WaterLevelRepository waterLevelRepository, 
+            WaterMeasurementLocationRepository waterLevelMeasurementRepository,
+            WaterMeasurementRepository waterMeasurementRepository,
+            WaterMeasurementRawRepository waterMeasurementRawRepository
+        )
         {
             Field<WaterLevelLocationType>(
                 "WaterLevelLocation",
@@ -22,7 +28,6 @@ namespace LohiWeb.GraphQL
                     return waterLevelLocationRepository.GetOneById(id);
                 }
             );
-
             Field<ListGraphType<WaterLevelLocationType>>(
                 "WaterLevelLocations",
                 resolve: context => waterLevelLocationRepository.GetAll());
@@ -30,6 +35,29 @@ namespace LohiWeb.GraphQL
             Field<ListGraphType<WaterLevelType>>(
                 "WaterLevels",
                 resolve: context => waterLevelRepository.GetAll());
+
+
+            Field<WaterMeasurementLocationType>(
+                "WaterMeasurement",
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
+                { Name = "id" }),
+                resolve: context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    return waterLevelMeasurementRepository.GetOneById(id);
+                }
+            );
+            Field<ListGraphType<WaterMeasurementLocationType>>(
+                "WaterMeasurementLocations",
+                resolve: context => waterLevelMeasurementRepository.GetAll());
+
+            Field<ListGraphType<WaterMeasurementType>>(
+                "WaterMeasurements",
+                resolve: context => waterMeasurementRepository.GetAll());
+
+            Field<ListGraphType<WaterMeasurementRawType>>(
+                "RawWaterMeasurements",
+                resolve: context => waterMeasurementRawRepository.GetAll());
         }
     }
 }
