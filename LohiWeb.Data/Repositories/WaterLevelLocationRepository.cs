@@ -21,5 +21,10 @@ namespace LohiWeb.Data.Repositories
         {
             return await _dbContext.WaterLevelLocation.ToListAsync();
         }
+
+        public async Task<WaterLevelLocation> GetOneById(int id)
+        {
+            return await _dbContext.WaterLevelLocation.SingleAsync(wll => wll.Id == id);
+        }
     }
 }
