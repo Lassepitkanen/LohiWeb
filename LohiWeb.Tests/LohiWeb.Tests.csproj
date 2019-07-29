@@ -6,11 +6,20 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.7.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.6" />
+    <PackageReference Include="NSubstitute" Version="4.2.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LohiWeb.Core\LohiWeb.Core.csproj" />
+    <ProjectReference Include="..\LohiWeb.Data\LohiWeb.Data.csproj" />
+    <ProjectReference Include="..\LohiWeb\LohiWeb.csproj" />
   </ItemGroup>
 
 </Project>
