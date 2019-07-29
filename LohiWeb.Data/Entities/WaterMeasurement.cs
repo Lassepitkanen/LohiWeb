@@ -25,5 +25,6 @@ namespace LohiWeb.Data.Entities
         public double AltError { get; set; }
         public double AirTemp { get; set; }
         public double WaterTemp { get; set; }
+        public int WaterMeasurementLocationId { get; set; }
     }
 }
