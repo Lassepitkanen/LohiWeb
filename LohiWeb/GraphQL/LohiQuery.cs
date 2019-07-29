@@ -38,7 +38,7 @@ namespace LohiWeb.GraphQL
 
 
             Field<WaterMeasurementLocationType>(
-                "WaterMeasurement",
+                "WaterMeasurementLocation",
                 arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>
                 { Name = "id" }),
                 resolve: context =>
