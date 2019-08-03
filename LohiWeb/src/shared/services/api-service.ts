@@ -1,13 +1,8 @@
-import axios  from 'axios';
-import IWaterLevelData from '../models/water-level';
-axios.defaults.baseURL = 'http://localhost:6556/graphql/';
+import ApolloClient, { Operation } from 'apollo-boost';
 
-export class ApiService {
-  queryData(query: string): Promise<IWaterLevelData>  {
-    return axios.post('',  {query}).then(response => {
-      return response.data.data;
-    }).catch(error => {
-      console.log(error);
-    });
-  }
-}
+const client = new ApolloClient({});
+
+const query = (query: any) => client.query({ query: query });
+const mutate = (query: any) => client.mutate({ mutation: query });
+
+export { client, query };

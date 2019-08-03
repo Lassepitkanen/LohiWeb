@@ -1,16 +1,15 @@
-import { ApiService } from './../shared/services/api-service';
+import { query } from './../shared/services/api-service';
+import { ApolloQueryResult } from 'apollo-boost';
 import {Grid, GridOptions} from 'ag-grid-community';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import { inject } from 'aurelia-framework';
+import { waterLevelQuery, IWaterLevelData } from '../shared/models/water-level';
 
-@inject(ApiService)
 export class AgGrid {
   private gridOptions: GridOptions = <GridOptions>{};
-  private api: ApiService;
 
-  constructor(ApiService: ApiService) {
-    this.api = ApiService;
+  constructor() {
     this.getRowData();
 
     this.gridOptions = {
@@ -31,12 +30,15 @@ export class AgGrid {
       this.gridOptions.api.exportDataAsCsv();
     }
   }
-  private getRowData() {
-    this.api.queryData('{waterLevels {id, unixTime, value}}').then(data => {
-      if (this.gridOptions.api && data) {
-        this.gridOptions.api.updateRowData({add: data.waterLevels});
+  private async getRowData() {
+    try {
+      const { data: { waterLevels } } = await query(waterLevelQuery) as ApolloQueryResult<IWaterLevelData>;
+      if (this.gridOptions.api && waterLevels) {
+        this.gridOptions.api.updateRowData({add: waterLevels});
       }
-    });
+    } catch (e) {
+      throw new Error('error');
+    }
   }
   private initGrid() {
     let gridDiv :HTMLElement = document.querySelector('#grid') as HTMLElement;
