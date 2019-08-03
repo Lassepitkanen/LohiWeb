@@ -240,3 +240,4 @@ _Pvt_Extensions
 
 LohiWeb/src/**/*.js
 LohiWeb/src/**/*.map
+LohiWeb/wwwroot/dist/*
