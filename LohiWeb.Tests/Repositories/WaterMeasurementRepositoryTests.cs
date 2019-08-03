@@ -18,6 +18,22 @@ namespace LohiWeb.Tests.Repositories
         }
 
         [Fact]
+        public async void GetAll_ShouldNotReturnNullOrEmpty()
+        {
+            //Arrange
+            var _dbContext = _dbContextFactory.BuildDbContext();
+            var sut = new WaterMeasurementRepository(_dbContext);
+
+            var expected = _dbContext.WaterMeasurement;
+
+            //Act
+            var actual = await sut.GetAll();
+
+            //Assert
+            actual.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
         public async void GetAll_ShouldReturnData()
         {
             //Arrange
