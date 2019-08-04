@@ -11,6 +11,7 @@ namespace LohiWeb.GraphQL
         public LohiSchema(IDependencyResolver resolver): base(resolver)
         {
             Query = resolver.Resolve<LohiQuery>();
+            Mutation = resolver.Resolve<LohiMutation>();
         }
     }
 }

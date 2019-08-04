@@ -25,5 +25,12 @@ namespace LohiWeb.Data.Repositories
         {
             return await _dbContext.WaterMeasurementLocation.SingleAsync(wml => wml.Id == id);
         }
+
+        public async Task<WaterMeasurementLocation> AddWaterMeasurementLocation(WaterMeasurementLocation waterMeasurementLocation)
+        {
+            _dbContext.WaterMeasurementLocation.Add(waterMeasurementLocation);
+            await _dbContext.SaveChangesAsync();
+            return waterMeasurementLocation;
+        }
     }
 }
