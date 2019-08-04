@@ -16,10 +16,13 @@
     "aurelia-templating-resources": "^1.11.0",
     "aurelia-templating-router": "^1.4.0",
     "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1"
   },
   "devDependencies": {
+    "@types/chart.js": "^2.7.56",
+    "@types/googlemaps": "^3.37.0",
     "@types/graphql": "^14.2.3",
     "aspnet-webpack": "^3.0.0",
     "aurelia-webpack-plugin": "^4.0.0",
