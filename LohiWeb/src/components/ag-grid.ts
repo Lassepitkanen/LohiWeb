@@ -1,17 +1,14 @@
 import { query } from './../shared/services/api-service';
 import { ApolloQueryResult } from 'apollo-boost';
-import {Grid, GridOptions} from 'ag-grid-community';
+import { Grid, GridOptions } from 'ag-grid-community';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import { inject } from 'aurelia-framework';
 import { waterLevelQuery, IWaterLevelData } from '../shared/models/water-level';
 
 export class AgGrid {
   private gridOptions: GridOptions = <GridOptions>{};
 
   constructor() {
-    this.getRowData();
-
     this.gridOptions = {
       columnDefs: this.getColumnDefs(),
       rowData: [],
@@ -21,8 +18,10 @@ export class AgGrid {
       }
     };
   }
+
   attached() {
     this.initGrid();
+    this.getRowData();
   }
 
   private export() {
