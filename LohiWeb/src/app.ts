@@ -12,6 +12,7 @@ export class App {
       { route: ['', 'welcome'], name: 'welcome', moduleId: PLATFORM.moduleName('./views/welcome-view'), nav: true, title: 'Welcome' },
       { route: 'map', name: 'map', moduleId: PLATFORM.moduleName('./views/map-view'), nav: true, title: 'Map' },
       { route: 'grid', name: 'grid', moduleId: PLATFORM.moduleName('./views/grid-view'), nav: true, title: 'Grid' },
+      { route: 'water-level', name: 'water-level', moduleId: PLATFORM.moduleName('./views/water-level-view'), nav: true, title: 'Water level' },
     ]);
   }
 }

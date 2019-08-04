@@ -14,7 +14,7 @@ export interface IWaterLevelData {
   waterLevels: Array<IWaterLevel>
 }
 
-interface IWaterLevel {
+export interface IWaterLevel {
   id: number,
   unixTime: number,
   value: number
