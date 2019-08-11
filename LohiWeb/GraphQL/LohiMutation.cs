@@ -11,7 +11,7 @@ namespace LohiWeb.GraphQL
 {
     public class LohiMutation : ObjectGraphType
     {
-        public LohiMutation(WaterMeasurementLocationRepository waterMeasurementLocationRepository)
+        public LohiMutation(WaterMeasurementLocationRepository waterMeasurementLocationRepository, WaterLevelLocationRepository waterLevelLocationRepository)
         {
             FieldAsync<WaterMeasurementLocationType>(
                 "createWaterMeasurementLocation",
@@ -22,6 +22,17 @@ namespace LohiWeb.GraphQL
                     var waterMeasurementLocation = context.GetArgument<WaterMeasurementLocation>("waterMeasurementLocation");
                     return await context.TryAsyncResolve(
                         async c => await waterMeasurementLocationRepository.AddWaterMeasurementLocation(waterMeasurementLocation));
+                });
+
+            FieldAsync<WaterLevelLocationType>(
+                "createWaterLevelLocation",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<WaterLevelLocationInputType>> { Name = "waterLevelLocation" }),
+                resolve: async context =>
+                {
+                    var waterLevelLocation = context.GetArgument<WaterLevelLocation>("waterLevelLocation");
+                    return await context.TryAsyncResolve(
+                        async c => await waterLevelLocationRepository.AddWaterLevelLocation(waterLevelLocation));
                 });
         }
     }
