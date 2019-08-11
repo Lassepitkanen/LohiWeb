@@ -33,5 +33,13 @@ namespace LohiWeb.Data.Repositories
             await _dbContext.SaveChangesAsync();
             return waterLevelLocation;
         }
+
+        public async Task<int> DeleteWaterLevelLocation(WaterLevelLocation waterLevelLocation)
+        {
+            var id = waterLevelLocation.Id;
+            _dbContext.WaterLevelLocation.Remove(waterLevelLocation);
+            await _dbContext.SaveChangesAsync();
+            return id;
+        }
     }
 }

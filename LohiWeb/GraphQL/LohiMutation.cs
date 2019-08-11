@@ -1,4 +1,5 @@
-﻿using GraphQL.Types;
+﻿using GraphQL;
+using GraphQL.Types;
 using LohiWeb.Data.Entities;
 using LohiWeb.Data.Repositories;
 using LohiWeb.GraphQL.Types;
@@ -14,7 +15,7 @@ namespace LohiWeb.GraphQL
         public LohiMutation(WaterMeasurementLocationRepository waterMeasurementLocationRepository, WaterLevelLocationRepository waterLevelLocationRepository)
         {
             FieldAsync<WaterMeasurementLocationType>(
-                "createWaterMeasurementLocation",
+                "CreateWaterMeasurementLocation",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<WaterMeasurementLocationInputType>> { Name = "waterMeasurementLocation" }),
                 resolve: async context =>
@@ -25,7 +26,7 @@ namespace LohiWeb.GraphQL
                 });
 
             FieldAsync<WaterLevelLocationType>(
-                "createWaterLevelLocation",
+                "CreateWaterLevelLocation",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<WaterLevelLocationInputType>> { Name = "waterLevelLocation" }),
                 resolve: async context =>
@@ -33,6 +34,23 @@ namespace LohiWeb.GraphQL
                     var waterLevelLocation = context.GetArgument<WaterLevelLocation>("waterLevelLocation");
                     return await context.TryAsyncResolve(
                         async c => await waterLevelLocationRepository.AddWaterLevelLocation(waterLevelLocation));
+                });
+
+            FieldAsync<IntGraphType>(
+                "DeleteWaterLevelLocation",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id" }),
+                resolve: async context =>
+                {
+                    var id = context.GetArgument<int>("id");
+                    var waterLevelLocation = await waterLevelLocationRepository.GetOneById(id);
+                    if (waterLevelLocation == null)
+                    {
+                        context.Errors.Add(new ExecutionError("Id not found"));
+                        return null;
+                    }
+                    return await context.TryAsyncResolve(
+                        async c => await waterLevelLocationRepository.DeleteWaterLevelLocation(waterLevelLocation));    
                 });
         }
     }
