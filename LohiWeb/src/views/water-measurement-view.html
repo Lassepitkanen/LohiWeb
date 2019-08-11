@@ -1,4 +1,6 @@
 <template>
-    <require from="../components/file-input"></require>
-    <file-input></file-input>
-  </template>
+  <require from="../components/file-input"></require>
+  <file-input measurement-data.two-way="measurementData"></file-input>
+  <require from="../components/water-measurement-grid"></require>
+  <water-measurement-grid measurement-data.two-way="measurementData" class="row px-4" style="height: 80vh"></water-measurement-grid>
+</template>
