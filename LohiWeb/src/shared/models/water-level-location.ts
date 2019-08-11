@@ -11,9 +11,16 @@ export const waterLevelLocationsQuery: Function = gql`
 
 export const createWaterLevelLocationMutation: Function = gql`
   mutation($name: String!) {
-    createWaterLevelLocation(waterLevelLocation: {name: $name}) {
+    waterLevelLocation: createWaterLevelLocation(waterLevelLocation: {name: $name}) {
+      id
       name
     }
+  }
+`;
+
+export const deleteWaterLevelLocation: Function = gql`
+  mutation($id: ID!) {
+    id: deleteWaterLevelLocation(id: $id)
   }
 `;
 
@@ -24,4 +31,8 @@ export interface IWaterLevelLocationData {
 export interface IWaterLevelLocation {
   id: number,
   name: string
+}
+
+export interface INewWaterLevelLocation {
+  waterLevelLocation: IWaterLevelLocation
 }
