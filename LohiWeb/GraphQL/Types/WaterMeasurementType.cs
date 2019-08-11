@@ -25,6 +25,7 @@ namespace LohiWeb.GraphQL.Types
             Field(t => t.AltError);
             Field(t => t.AirTemp);
             Field(t => t.WaterTemp);
+            Field(t => t.WaterMeasurementLocationId);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace LohiWeb.GraphQL.Types
             Field(t => t.Id);
             Field(t => t.UnixTime);
             Field(t => t.Value);
+            Field(t => t.WaterLevelLocationId);
         }
     }
 }
