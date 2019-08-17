@@ -13,8 +13,13 @@ export function configure(aurelia: Aurelia) {
   if (__DEBUG__) {
     aurelia.use.developmentLogging();
   }
-  aurelia.use.plugin(PLATFORM.moduleName('aurelia-store'), { initialState });
+  aurelia.use.plugin(PLATFORM.moduleName('aurelia-store'), { 
+    initialState,
+    history: {
+      limit: 5
+    } 
+  });
 
   aurelia.start()
-    .then(() => aurelia.setRoot(PLATFORM.moduleName("app")));
+    .then(() => aurelia.setRoot(PLATFORM.moduleName('app')));
 }
