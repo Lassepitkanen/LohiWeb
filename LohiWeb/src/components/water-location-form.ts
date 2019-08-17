@@ -1,18 +1,21 @@
 import { mutate } from './../shared/services/api-service';
 import { ApolloQueryResult } from 'apollo-boost';
-import { createWaterLevelLocationMutation, INewWaterLevelLocation, IWaterLevelLocation } from '../shared/models/water-level-location';
-import { bindable } from 'aurelia-framework';
+import { createWaterLevelLocationMutation, INewWaterLevelLocation } from '../shared/models/water-level-location';
+import { Store, connectTo } from 'aurelia-store';
+import { State, addWaterLevelLocationAction } from '../shared/state/state';
 
+@connectTo()
 export class WaterLocationForm {
-  @bindable
-  public waterLevelLocations: IWaterLevelLocation[] = [];
-
   name: string = '';
+
+  constructor(private store: Store<State>) {
+    this.store.registerAction('addWaterLevelLocationAction', addWaterLevelLocationAction);
+  }
 
   async submit() {
     try {
       const { data: { waterLevelLocation }} = await mutate({ name: this.name }, createWaterLevelLocationMutation) as ApolloQueryResult<INewWaterLevelLocation>;
-      this.waterLevelLocations.push(waterLevelLocation);
+      this.store.dispatch('addWaterLevelLocationAction', waterLevelLocation);
     } catch (e) {
       throw new Error('error');
     }
