@@ -1,0 +1,8 @@
+
+<template>
+  <select class="custom-select" value.bind="selectedLocationId">
+    <option repeat.for="location of waterLevelLocations" model.bind="location.id">
+      ${location.id} - ${location.name}
+    </option>
+  </select>
+</template>
