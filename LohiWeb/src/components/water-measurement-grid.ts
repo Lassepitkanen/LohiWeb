@@ -28,15 +28,15 @@ export class WaterMeasurementGrid {
 
   private deleteSelected() {
     const selectedNodes = this.gridApi.getSelectedNodes();
-    const selectedIds = selectedNodes.map((node: any) => {
-      return node.rowIndex;
+    const selectedData = selectedNodes.map((node: any) => {
+      return node.data;
     });
 
-    this.measurementData = this.measurementData.filter((row, index) => {
-      if (!selectedIds.includes(index)) {
-        return row;
+    this.measurementData = this.measurementData.filter(el => {
+      if (!selectedData.includes(el)) {
+        return el;
       }
-    });
+    })
     this.gridApi.setRowData(this.measurementData);
   }
 
