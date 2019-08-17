@@ -4,7 +4,7 @@ export class FileInput {
   @bindable
   public measurementData: Object[] = [];
 
-  private data: Object[] = [];
+  private data: WaterMeasurement[] = [];
   private fileList: FileList|null = null;
 
   private async onSelectFile(e: Event) {
@@ -18,7 +18,7 @@ export class FileInput {
     }
   }
 
-  private readFile(file: File): Promise<object[]> {
+  private readFile(file: File): Promise<WaterMeasurement[]> {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
 
@@ -27,12 +27,12 @@ export class FileInput {
         result = result.replace(/[\r\n]+/g, ' ').split(' ');
         
         const len = result.length;
-        const waterMeasurements = Array(len)
+        const waterMeasurements = Array(len);
         for (let i = 0; i < len; i++) {
           const values = result[i].split(',');
           waterMeasurements[i] = new WaterMeasurement(values);
         }
-
+        console.log(waterMeasurements);
         resolve(waterMeasurements);
       }
       fileReader.onerror = () => {
@@ -46,6 +46,7 @@ export class FileInput {
 }
 
 class WaterMeasurement {
+  private unixTime: [Number, String];
   private depth: [Number, String];
   private heatmap: [Number, String];
   private lat: [Number, String];
@@ -60,17 +61,18 @@ class WaterMeasurement {
   private waterTemp: [Number, String]
 
   constructor(values: Array<[Number, String]>) {
-    this.depth = values[0];
-    this.heatmap = values[1];
-    this.lat = values[2];
-    this.lng = values[3];
-    this.alt = values[4];
-    this.speed = values[5];
-    this.heading = values[6];
-    this.latError = values[7];
-    this.lngError = values[8];
-    this.altError = values[9];
-    this.airTemp = values[10];
-    this.waterTemp = values[11];
+    this.unixTime = values[0]
+    this.depth = values[1];
+    this.heatmap = values[2];
+    this.lat = values[3];
+    this.lng = values[4];
+    this.alt = values[5];
+    this.speed = values[6];
+    this.heading = values[7];
+    this.latError = values[8];
+    this.lngError = values[9];
+    this.altError = values[10];
+    this.airTemp = values[11];
+    this.waterTemp = values[12];
   }
 }
