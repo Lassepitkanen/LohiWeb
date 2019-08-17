@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "strict": true,
-    "types": ["googlemaps", "chart.js"]
+    "types": ["googlemaps"]
   },
 
   "compileOnSave": false
