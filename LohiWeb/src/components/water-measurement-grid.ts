@@ -1,14 +1,14 @@
 import { bindable } from 'aurelia-framework';
-import { Grid, GridOptions } from 'ag-grid-community';
+import { Grid, GridOptions, GridApi } from 'ag-grid-community';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
 
 export class WaterMeasurementGrid {
   @bindable
-  public measurementData: Object[] = [];
+  public measurementData: Object[];
 
   private gridOptions: GridOptions = <GridOptions>{};
-  private api: any;
+  private gridApi: GridApi = <GridApi>{};
 
   constructor() {
     this.gridOptions = {
@@ -19,20 +19,15 @@ export class WaterMeasurementGrid {
         sortable: true,
       },
       rowSelection: 'multiple',
-      onSelectionChanged: this.onSelectionChanged
     };
+    this.gridApi = this.gridOptions.api as GridApi;
   }
   attached() {
     this.initGrid();
-    this.api = this.gridOptions.api;
-  }
-
-  private onSelectionChanged() {
-    let selectedNodes = this.api.getSelectedNodes();
   }
 
   private deleteSelected() {
-    const selectedNodes = this.api.getSelectedNodes();
+    const selectedNodes = this.gridApi.getSelectedNodes();
     const selectedIds = selectedNodes.map((node: any) => {
       return node.rowIndex;
     });
@@ -42,32 +37,33 @@ export class WaterMeasurementGrid {
         return row;
       }
     });
-    this.api.setRowData(this.measurementData);
+    this.gridApi.setRowData(this.measurementData);
   }
 
   private measurementDataChanged() {
-    if (this.gridOptions.api) {
-      this.gridOptions.api.setRowData(this.measurementData);
+    if (this.gridApi) {
+      this.gridApi.setRowData(this.measurementData);
     }
   }  
   private initGrid() {
-    let gridDiv = document.querySelector('#measurement-grid') as HTMLElement;
+    const gridDiv = document.querySelector('#measurement-grid') as HTMLElement;
     new Grid(gridDiv , this.gridOptions);
+    this.gridApi = this.gridOptions.api as GridApi;
   }
   private getColumnDefs(): Array<Object> {
     return [
-      { headerName: 'UnixTime', field: 'unixTime', valueGetter: (params: any) =>  new Date(params.data.unixTime * 1000).toLocaleDateString('en-US') },
-      { headerName: 'Depth', field: 'depth' },
-      { headerName: 'Lat', field: 'lat' },
-      { headerName: 'Lng', field: 'lng' },
-      { headerName: 'Alt', field: 'alt' },
-      { headerName: 'Speed', field: 'speed' },
-      { headerName: 'Heading', field: 'heading' },
-      { headerName: 'LatError', field: 'latError' },
-      { headerName: 'LngError', field: 'lngError' },
-      { headerName: 'AltError', field: 'altError' },
-      { headerName: 'AirTemp', field: 'airTemp' },
-      { headerName: 'WaterTemp', field: 'waterTemp' },
+      { headerName: 'UnixTime', field: 'unixTime', valueGetter: (params: any) =>  new Date(params.data.unixTime * 1000).toLocaleDateString('en-US'), width: 125 },
+      { headerName: 'Depth', field: 'depth', width: 125 },
+      { headerName: 'Lat', field: 'lat', width: 125  },
+      { headerName: 'Lng', field: 'lng', width: 125 },
+      { headerName: 'Alt', field: 'alt', width: 125 },
+      { headerName: 'Speed', field: 'speed', width: 125 },
+      { headerName: 'Heading', field: 'heading', width: 125 },
+      { headerName: 'LatError', field: 'latError', width: 125 },
+      { headerName: 'LngError', field: 'lngError', width: 125 },
+      { headerName: 'AltError', field: 'altError', width: 125 },
+      { headerName: 'AirTemp', field: 'airTemp', width: 125 },
+      { headerName: 'WaterTemp', field: 'waterTemp', width: 125 },
     ]; 
   }
 }
