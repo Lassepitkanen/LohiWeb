@@ -1,6 +1,13 @@
 <template>
   <require from="../components/file-input"></require>
-  <file-input measurement-data.two-way="measurementData"></file-input>
+  <require from="../components/water-location-select"></require>
   <require from="../components/water-measurement-grid"></require>
-  <water-measurement-grid measurement-data.two-way="measurementData" class="row px-4" style="height: 80vh"></water-measurement-grid>
+  <div class="row justify-content-between px-4">
+    <file-input class="col-6" measurement-data.from-view="measurementData"></file-input>
+    <div class="row col-6">
+      <water-location-select selected-location-id.from-view="selectedLocationId" class="col-11" style="padding-right: 0px"></water-location-select>
+      <button class="col-1" click.delegate="saveToDb()">Save</button>
+    </div>
+    <water-measurement-grid measurement-data.two-way="measurementData" class="col-12" style="height: 75vh"></water-measurement-grid>
+  </div>
 </template>
