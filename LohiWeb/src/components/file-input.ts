@@ -9,8 +9,8 @@ export class FileInput {
 
   private async onSelectFile(e: Event) {
     if (this.fileList) {
-      this.data = [];
-      for (let index = 0; index < this.fileList.length; index++) {
+      const len =  this.fileList.length;
+      for (let index = 0; index < len; index++) {
         const result = await this.readFile(this.fileList[index]);
         this.data.push(...result);
       }
@@ -32,7 +32,6 @@ export class FileInput {
           const values = result[i].split(',');
           waterMeasurements[i] = new WaterMeasurement(values);
         }
-        console.log(waterMeasurements);
         resolve(waterMeasurements);
       }
       fileReader.onerror = () => {
@@ -46,21 +45,21 @@ export class FileInput {
 }
 
 class WaterMeasurement {
-  private unixTime: [Number, String];
-  private depth: [Number, String];
-  private heatmap: [Number, String];
-  private lat: [Number, String];
-  private lng: [Number, String];
-  private alt: [Number, String];
-  private speed: [Number, String];
-  private heading: [Number, String];
-  private latError: [Number, String];
-  private lngError: [Number, String];
-  private altError: [Number, String];
-  private airTemp: [Number, String];
-  private waterTemp: [Number, String]
+  private unixTime: number|string;
+  private depth: number|string;
+  private heatmap: number|string;
+  private lat: number|string;
+  private lng: number|string;
+  private alt: number|string;
+  private speed: number|string;
+  private heading: number|string;
+  private latError: number|string;
+  private lngError: number|string;
+  private altError: number|string;
+  private airTemp: number|string;
+  private waterTemp: number|string
 
-  constructor(values: Array<[Number, String]>) {
+  constructor(values: Array<number|string>) {
     this.unixTime = values[0]
     this.depth = values[1];
     this.heatmap = values[2];
