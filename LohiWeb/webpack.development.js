@@ -3,7 +3,15 @@ const merge = require("webpack-merge");
 
 const common = require("./webpack.common.js");
 
+console.log('Starting the development server...\n');
+const port = parseInt(process.env.PORT, 10) || 8083;
 module.exports = merge(common, {
+  devServer: {
+    compress: true,
+    port: port,
+    contentBase: '/',
+    publicPath: '/'
+  },
   mode: "development",
 
   devtool: 'inline-source-map',

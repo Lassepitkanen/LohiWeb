@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using LohiWeb.Data;
@@ -14,6 +13,7 @@ using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using LohiWeb.Data.Repositories;
 using LohiWeb.GraphQL;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace LohiWeb
 {
@@ -39,6 +39,11 @@ namespace LohiWeb
             services.AddGraphQL(o => { o.ExposeExceptions = true; })
                 .AddGraphTypes(ServiceLifetime.Scoped)
                 .AddDataLoader();
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -48,25 +53,44 @@ namespace LohiWeb
             if (env.IsDevelopment())
             {
                 app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                //{
+                //    ConfigFile = "webpack.development.js",
+                //    HotModuleReplacement = true,
+                //});
+
+                app.Map("/dist", innerApp =>
                 {
-                    ConfigFile = "webpack.development.js",
-                    HotModuleReplacement = true,
+                    innerApp.UseSpa(spa =>
+                    {
+                        spa.Options.SourcePath = ".";
+                        spa.UseReactDevelopmentServer(npmScript: "dev");
+                    });
                 });
             }
 
             // Serve all static files 
             app.UseStaticFiles();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=SpaIndex}/{action=Index}");
+            app.UseRouting();
 
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=SpaIndex}/{action=Index}",
                     defaults: new { controller = "SpaIndex", action = "Index" });
             });
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=SpaIndex}/{action=Index}");
+
+            //    routes.MapSpaFallbackRoute(
+            //        name: "spa-fallback",
+            //        defaults: new { controller = "SpaIndex", action = "Index" });
+            //});
         }
     }
 }
