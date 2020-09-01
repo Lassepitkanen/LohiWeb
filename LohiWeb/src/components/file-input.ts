@@ -8,14 +8,14 @@ export class FileInput {
   private fileList: FileList|null = null;
 
   private async onSelectFile(e: Event) {
-    if (this.fileList) {
-      const len =  this.fileList.length;
-      for (let index = 0; index < len; index++) {
+    if (this.fileList !== null) {
+      const len = this.fileList.length;
+      for (let index = 0; index < len; ++index) {
         const result = await this.readFile(this.fileList[index]);
         this.data.push(...result);
       }
       this.measurementData = this.data;
-    }
+    } 
   }
 
   private readFile(file: File): Promise<WaterMeasurement[]> {
@@ -23,16 +23,19 @@ export class FileInput {
       const fileReader = new FileReader();
 
       fileReader.onload = e => {
-        let result = e.target.result;
-        result = result.replace(/[\r\n]+/g, ' ').split(' ');
-        
-        const len = result.length;
-        const waterMeasurements = Array(len);
-        for (let i = 0; i < len; i++) {
-          const values = result[i].split(',');
-          waterMeasurements[i] = new WaterMeasurement(values);
+        const target = e.target;
+        if (target !== null && target.result !== null && typeof target.result === 'string') {
+          const result = target.result;
+          let resultString = result.replace(/[\r\n]+/g, ' ').split(' ');
+
+          const len = resultString.length;
+          const waterMeasurements = Array(len);
+          for (let i = 0; i < len; ++i) {
+            const values = resultString[i].split(',');
+            waterMeasurements[i] = new WaterMeasurement(values);
+          }
+          resolve(waterMeasurements);
         }
-        resolve(waterMeasurements);
       }
       fileReader.onerror = () => {
         reject([]);
