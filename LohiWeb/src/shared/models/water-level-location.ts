@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
+import { DocumentNode } from 'graphql';
 
-export const waterLevelLocationsQuery: Function = gql`
+export const waterLevelLocationsQuery: DocumentNode = gql`
   query {
     waterLevelLocations {
       id
@@ -9,7 +10,7 @@ export const waterLevelLocationsQuery: Function = gql`
   }
 `;
 
-export const createWaterLevelLocationMutation: Function = gql`
+export const createWaterLevelLocationMutation: DocumentNode = gql`
   mutation($name: String!) {
     waterLevelLocation: createWaterLevelLocation(waterLevelLocation: {name: $name}) {
       id
@@ -18,7 +19,7 @@ export const createWaterLevelLocationMutation: Function = gql`
   }
 `;
 
-export const deleteWaterLevelLocation: Function = gql`
+export const deleteWaterLevelLocation: DocumentNode = gql`
   mutation($id: ID!) {
     id: deleteWaterLevelLocation(id: $id)
   }

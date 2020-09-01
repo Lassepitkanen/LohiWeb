@@ -12,7 +12,7 @@ export class WaterLocationForm {
     this.store.registerAction('addWaterLevelLocationAction', addWaterLevelLocationAction);
   }
 
-  async submit() {
+  public async submit() {
     try {
       const { data: { waterLevelLocation }} = await mutate({ name: this.name }, createWaterLevelLocationMutation) as ApolloQueryResult<INewWaterLevelLocation>;
       this.store.dispatch('addWaterLevelLocationAction', waterLevelLocation);

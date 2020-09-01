@@ -17,7 +17,7 @@ export class WaterLocationTable {
     this.store.registerAction('deleteWaterLevelLocationAction', deleteWaterLevelLocationAction);
   }
 
-  private async delete(locationId: number) {
+  public async delete(locationId: number) {
     try {
       const { data: data  } = await mutate({ id: locationId }, deleteWaterLevelLocation) as ApolloQueryResult<IIdModel>;
       const index = this.waterLevelLocations.findIndex(el => el.id === data.id);
@@ -29,7 +29,7 @@ export class WaterLocationTable {
     }
   }
 
-  waterLevelLocationsChanged(newState: State, oldState: State) {
+  private waterLevelLocationsChanged(newState: State, oldState: State) {
     this.waterLevelLocations = newState.waterLevelLocations;
   }
 }

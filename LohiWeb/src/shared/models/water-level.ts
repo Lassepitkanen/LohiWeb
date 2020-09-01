@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
+import { DocumentNode } from 'graphql';
 
-export const waterLevelQuery: Function = gql`
+export const waterLevelQuery: DocumentNode = gql`
   query {
     waterLevels {
       id
