@@ -2,14 +2,17 @@ import { Chart } from 'chart.js';
 import { waterLevelQuery, IWaterLevelData } from '../shared/models/water-level';
 import { query } from './../shared/services/api-service';
 import { ApolloQueryResult } from 'apollo-boost';
+import * as NProgress from 'nprogress';
 
 export class WaterLevelChart {
   private labels: Array<string> = [];
   private values: Array<number> = [];
   
   async attached() {
+    NProgress.start();
     await this.getData();
     this.initChart();
+    NProgress.done();
   }
 
   private async getData() {
@@ -24,7 +27,7 @@ export class WaterLevelChart {
     }
   }
   private initChart() {
-    const ctx: HTMLCanvasElement = document.querySelector('#water-level-chart') as HTMLCanvasElement;
+    const ctx = document.querySelector('#water-level-chart') as HTMLCanvasElement;
     new Chart(ctx, {
       type: 'line',
       data: {
