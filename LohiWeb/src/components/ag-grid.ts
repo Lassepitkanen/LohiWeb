@@ -7,19 +7,20 @@ import { waterLevelQuery, IWaterLevelData } from '../shared/models/water-level';
 import * as NProgress from 'nprogress';
 
 export class AgGrid {
-  private gridOptions: GridOptions = <GridOptions>{};
+  private columnDefs: Object[] = [
+    { headerName: 'Id', field: 'id' },
+    { headerName: 'UnixTime', field: 'unixTime', valueGetter: (params: any) =>  new Date(params.data.unixTime * 1000).toLocaleDateString('en-US') },
+    { headerName: 'Value', field: 'value' }
+  ];
+  private gridOptions: GridOptions = {
+    columnDefs: this.columnDefs,
+    rowData: [],
+    defaultColDef: {
+      filter: true,
+      sortable: true,
+    }
+  };
   private gridApi: GridApi = <GridApi>{};
-
-  constructor() {
-    this.gridOptions = {
-      columnDefs: this.getColumnDefs(),
-      rowData: [],
-      defaultColDef: {
-        filter: true,
-        sortable: true,
-      }
-    };
-  }
 
   async attached() {
     NProgress.start();
@@ -43,12 +44,5 @@ export class AgGrid {
     const gridDiv = document.querySelector('#grid') as HTMLElement;
     new Grid(gridDiv , this.gridOptions);
     this.gridApi = this.gridOptions.api as GridApi;
-  }
-  private getColumnDefs(): Array<Object> {
-    return [
-      {headerName: 'Id', field: 'id'},
-      {headerName: 'UnixTime', field: 'unixTime', valueGetter: (params: any) =>  new Date(params.data.unixTime * 1000).toLocaleDateString('en-US')},
-      {headerName: 'Value', field: 'value'}
-    ];
   }
 }
