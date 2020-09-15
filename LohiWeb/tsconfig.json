@@ -9,7 +9,6 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "strict": true,
-    "types": ["googlemaps"],
     "strictPropertyInitialization": false
   },
 
